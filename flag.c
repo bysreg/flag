@@ -53,11 +53,11 @@ static flagset_t *set = NULL;
   void \
   flagset_##NAME(flagset_t *self, TYPE *value, const char *name, const char *help) { \
     CHECK_BOUNDS; \
-    self->flags[self->nflags++] = (flag_t) { \
-      .name = name, \
-      .help = help, \
-      .type = FLAG_TYPE_##CAP, \
-      .value = value \
+    self->flags[self->nflags++] = { \
+      name, \
+      help, \
+      FLAG_TYPE_##CAP, \
+      value \
     }; \
   } \
   void \
@@ -105,7 +105,7 @@ largest_flag_name(flagset_t *self) {
 
 flagset_t *
 flagset_new() {
-  flagset_t *self = calloc(1, sizeof(flagset_t));
+  flagset_t *self = (flagset_t*) calloc(1, sizeof(flagset_t));
   if (!self) return NULL;
   self->usage = "[options] [arguments]";
   return self;
